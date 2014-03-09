@@ -6,6 +6,10 @@ gem 'pg'
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'guard-rspec', require: false
+  gem 'guard-spork'
+  gem 'childprocess'
+  gem 'spork'
 end
 
 # Gems used only for assets and not required
@@ -20,6 +24,8 @@ gem 'jquery-rails'
 
 group :test do
   gem 'capybara'
+  gem 'rb-fsevent', :require => false
+  gem 'growl'
 end
 
 #heroku recommentation on how to use heroku with rails

@@ -13,8 +13,14 @@ describe "Static pages" do
     
     it "should have the right title" do
       visit '/static_pages/home'
-      page.should have_title("#{basic_title} Homepage")
+      page.should have_title("Altcoin")
     end
+
+    it "should not have a custom title for the Homepage" do
+      visit 'static_pages/home'
+      page.should_not have_title("|")
+    end
+
   end
   
   describe "Help page" do

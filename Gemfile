@@ -4,6 +4,9 @@ gem 'rails', '3.2.14'
 
 gem 'pg'
 
+gem 'bootstrap-sass', '2.1'
+
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false

@@ -7,6 +7,13 @@ gem 'pg'
 gem 'bootstrap-sass', '2.1'
 
 
+# To use ActiveModel has_secure_password
+gem 'bcrypt-ruby', '~> 3.0.1'
+
+group :development do
+  gem 'annotate', '2.5.0'
+end
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
@@ -34,8 +41,7 @@ end
 #heroku recommentation on how to use heroku with rails
 gem 'rails_12factor', group: :production
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

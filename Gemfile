@@ -6,7 +6,6 @@ gem 'pg'
 
 gem 'bootstrap-sass', '2.1'
 
-
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.1'
 
@@ -36,6 +35,7 @@ group :test do
   gem 'capybara'
   gem 'rb-fsevent', :require => false
   gem 'growl'
+  gem 'factory_girl_rails', '4.1.0'
 end
 
 #heroku recommentation on how to use heroku with rails

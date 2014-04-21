@@ -1,0 +1,36 @@
+  <% provide(:title, 'Contact')%>
+
+  <div class="row"><div class="offset2 span8">
+    <h1>Contact Us</h1>
+
+    <div class="well">
+      <%= form_for @message do |f| %>
+      <% if @message.errors.any? %>
+      <div class="alert alert-block">
+        <a><%= pluralize(@message.errors.count, "error") %> prohibited this message from being sent:</a>
+        <ul>
+          <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+      <% end %>
+      <p>
+        <%= f.label :name %><br />
+        <%= f.text_field :name %>
+      </p>
+      <p>
+        <%= f.label :email %><br />
+        <%= f.text_field :email %>
+      </p>
+      <p>
+        <%= f.label :content, "Message" %><br />
+        <%= f.text_area :content %>
+      </p>
+      <p><%= f.submit "Send Message", class:"btn btn-large btn-primary" %></p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="offset2"></div>

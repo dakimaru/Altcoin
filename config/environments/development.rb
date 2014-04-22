@@ -34,4 +34,7 @@ Altcoin::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  #asset precompile
+  config.assets.prefix = "/dev-assets"
 end

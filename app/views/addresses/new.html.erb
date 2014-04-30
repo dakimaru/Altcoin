@@ -1,0 +1,14 @@
+<% provide(:title, 'Add Address') %>
+
+<div class="row">
+	<div class="span6 offset3">
+		<h1>Sign up</h1>
+		<%= form_for(@address) do |f| %>
+		<%= render 'shared/error_messages', object: f.object %>
+			<%= f.label :address %>
+			<%= f.text_field :public_key, place_holder: "Public Address" %>
+
+			<%= f.submit "Link Address", class: "btn btn-large btn-primary" %>
+		<% end %>
+	</div>
+</div>

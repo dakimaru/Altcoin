@@ -4,6 +4,7 @@
 class UsersController < ApplicationController
    def show
     @user = User.find(params[:id])
+    @addresses = @user.addresses 
     get_currency_info
   end
 
@@ -15,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to Coinbridge!"
+      flash[:success] = "Welcome to Coinbridge! Get started by adding a wallet address."
       redirect_to @user
     else
       render 'new'

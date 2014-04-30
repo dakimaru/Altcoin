@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140421054114) do
+ActiveRecord::Schema.define(:version => 20140426193040) do
+
+  create_table "addresses", :force => true do |t|
+    t.string   "public_key"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
+  add_index "addresses", ["user_id", "created_at"], :name => "index_addresses_on_user_id_and_created_at"
 
   create_table "messages", :force => true do |t|
     t.string   "name"

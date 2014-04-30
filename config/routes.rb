@@ -1,4 +1,10 @@
 Altcoin::Application.routes.draw do
+  get "addresses/new"
+
+  get "addresses/create"
+
+  get "addresses/destroy"
+
   get "messages/new"
 
   get "messages/create"
@@ -6,6 +12,7 @@ Altcoin::Application.routes.draw do
   resources :users
   resources :messages, only: [:new, :create]
   resources :sessions, only: [:new,:create,:destroy]
+  resources :addresses
 
   root to: "static_pages#home"
 

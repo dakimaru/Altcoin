@@ -1,1 +1,5 @@
-<%= @address %>
+<%= @address%>
+
+<%require 'open-uri'%>
+
+<%=open("https://blockchain.info/q/getreceivedbyaddress/#{@address}").read%>

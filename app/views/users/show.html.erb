@@ -2,8 +2,8 @@
 <div class="row-fluid">
 	<aside class="span4">
 		<section>
-				<%= gravatar_for @user %>
-				<h4><%= @user.name %></h4><h5><%= @user.email %></h5>
+			<%= gravatar_for @user %>
+			<h4><%= @user.name %></h4><h5><%= @user.email %></h5>
 		</section>
 	</aside>
 	<div class="well span8">
@@ -26,243 +26,268 @@
 	</div>
 </div>
 
-<% if @user.addresses.any? %>
-<h4>You have <%= pluralize(current_user.addresses.count, "address") %></h4>
+<div class="row-fluid">
+	<aside class="span4">
+		<% if @user.addresses.any? %>
+		<h4>You have <%= pluralize(current_user.addresses.count, "address") %></h4>
 
-<% current_user.addresses.each do |address| %>
-<%= link_to address.public_key, address_path(address.id) %><br>
-<% end -%>
+		<% current_user.addresses.each do |address| %>
+		<%= link_to address.public_key, address_path(address.id) %><br>
 
-<% end -%>
-<br>
-<%= link_to "Add address", new_address_path, class: "btn btn-primary" %>
+		<%require 'open-uri'%>
 
-<hr>
+		<%= @unit = open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8) %> BTC
 
+		<% @temp = @temp.to_f + @unit %>
 
+		<% @all_ads = "#{@all_ads}#{address.public_key}|" %>
 
+		<% end -%>
+		<% end -%>
 
-<table id="example" class="display" width="100%">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Position</th>
-			<th>Office</th>
-			<th>Age</th>
-			<th>Start date</th>
-			<th>Salary</th>
-		</tr>
-	</thead>
+		<%= @all_ads = @all_ads[0..-2] unless @all_ads.blank? %>
 
-	<tfoot>
-		<tr>
-			<th>Name</th>
-			<th>Position</th>
-			<th>Office</th>
-			<th>Age</th>
-			<th>Start date</th>
-			<th>Salary</th>
-		</tr>
-	</tfoot>
+		<br>
+		<%= link_to "Add address", new_address_path, class: "btn btn-primary" %>
 
-	<tbody>
-		<tr>
-			<td>Tiger Nixon</td>
-			<td>System Architect</td>
-			<td>Edinburgh</td>
-			<td>61</td>
-			<td>2011/04/25</td>
-			<td>$3,120</td>
-		</tr>
-		<tr>
-			<td>Garrett Winters</td>
-			<td>Director</td>
-			<td>Edinburgh</td>
-			<td>63</td>
-			<td>2011/07/25</td>
-			<td>$5,300</td>
-		</tr>
-		<tr>
-			<td>Ashton Cox</td>
-			<td>Technical Author</td>
-			<td>San Francisco</td>
-			<td>66</td>
-			<td>2009/01/12</td>
-			<td>$4,800</td>
-		</tr>
-		<tr>
-			<td>Cedric Kelly</td>
-			<td>Javascript Developer</td>
-			<td>Edinburgh</td>
-			<td>22</td>
-			<td>2012/03/29</td>
-			<td>$3,600</td>
-		</tr>
-		<tr>
-			<td>Jenna Elliott</td>
-			<td>Financial Controller</td>
-			<td>Edinburgh</td>
-			<td>33</td>
-			<td>2008/11/28</td>
-			<td>$5,300</td>
-		</tr>
-		<tr>
-			<td>Jena Gaines</td>
-			<td>System Architect</td>
-			<td>London</td>
-			<td>30</td>
-			<td>2008/12/19</td>
-			<td>$5,000</td>
-		</tr>
-		<tr>
-			<td>Quinn Flynn</td>
-			<td>Financial Controller</td>
-			<td>Edinburgh</td>
-			<td>22</td>
-			<td>2013/03/03</td>
-			<td>$4,200</td>
-		</tr>
-		<tr>
-			<td>Charde Marshall</td>
-			<td>Regional Director</td>
-			<td>San Francisco</td>
-			<td>36</td>
-			<td>2008/10/16</td>
-			<td>$5,300</td>
-		</tr>
-		<tr>
-			<td>Haley Kennedy</td>
-			<td>Senior Marketing Designer</td>
-			<td>London</td>
-			<td>43</td>
-			<td>2012/12/18</td>
-			<td>$4,800</td>
-		</tr>
-		<tr>
-			<td>Tatyana Fitzpatrick</td>
-			<td>Regional Director</td>
-			<td>London</td>
-			<td>19</td>
-			<td>2010/03/17</td>
-			<td>$2,875</td>
-		</tr>
-		<tr>
-			<td>Michael Silva</td>
-			<td>Senior Marketing Designer</td>
-			<td>London</td>
-			<td>66</td>
-			<td>2012/11/27</td>
-			<td>$3,750</td>
-		</tr>
-		<tr>
-			<td>Paul Byrd</td>
-			<td>Javascript Developer</td>
-			<td>New York</td>
-			<td>64</td>
-			<td>2010/06/09</td>
-			<td>$5,000</td>
-		</tr>
-		<tr>
-			<td>Gloria Little</td>
-			<td>Systems Administrator</td>
-			<td>New York</td>
-			<td>59</td>
-			<td>2009/04/10</td>
-			<td>$3,120</td>
-		</tr>
-		<tr>
-			<td>Bradley Greer</td>
-			<td>Software Engineer</td>
-			<td>London</td>
-			<td>41</td>
-			<td>2012/10/13</td>
-			<td>$3,120</td>
-		</tr>
-	</tbody>
-</table>
+		<hr>
+	</aside>
+	<aside class="span8">
+		<h1>Total: <%= if @temp
+			@temp
+		else
+			0
+		end %> BTC
+
+		</h1>
+
+</aside
+</div>
 
 
 
 
-<canvas id="pie" align='center' height="300" width="300"></canvas>
-<canvas id="radar" align='center' height="350" width="350"></canvas>
-<canvas align='center'id="canvas" height="400" width="900"></canvas>
+		<table id="example" class="display" width="100%">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Office</th>
+					<th>Age</th>
+					<th>Start date</th>
+					<th>Salary</th>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+					<th>Name</th>
+					<th>Position</th>
+					<th>Office</th>
+					<th>Age</th>
+					<th>Start date</th>
+					<th>Salary</th>
+				</tr>
+			</tfoot>
+
+			<tbody>
+				<tr>
+					<td>Tiger Nixon</td>
+					<td>System Architect</td>
+					<td>Edinburgh</td>
+					<td>61</td>
+					<td>2011/04/25</td>
+					<td>$3,120</td>
+				</tr>
+				<tr>
+					<td>Garrett Winters</td>
+					<td>Director</td>
+					<td>Edinburgh</td>
+					<td>63</td>
+					<td>2011/07/25</td>
+					<td>$5,300</td>
+				</tr>
+				<tr>
+					<td>Ashton Cox</td>
+					<td>Technical Author</td>
+					<td>San Francisco</td>
+					<td>66</td>
+					<td>2009/01/12</td>
+					<td>$4,800</td>
+				</tr>
+				<tr>
+					<td>Cedric Kelly</td>
+					<td>Javascript Developer</td>
+					<td>Edinburgh</td>
+					<td>22</td>
+					<td>2012/03/29</td>
+					<td>$3,600</td>
+				</tr>
+				<tr>
+					<td>Jenna Elliott</td>
+					<td>Financial Controller</td>
+					<td>Edinburgh</td>
+					<td>33</td>
+					<td>2008/11/28</td>
+					<td>$5,300</td>
+				</tr>
+				<tr>
+					<td>Jena Gaines</td>
+					<td>System Architect</td>
+					<td>London</td>
+					<td>30</td>
+					<td>2008/12/19</td>
+					<td>$5,000</td>
+				</tr>
+				<tr>
+					<td>Quinn Flynn</td>
+					<td>Financial Controller</td>
+					<td>Edinburgh</td>
+					<td>22</td>
+					<td>2013/03/03</td>
+					<td>$4,200</td>
+				</tr>
+				<tr>
+					<td>Charde Marshall</td>
+					<td>Regional Director</td>
+					<td>San Francisco</td>
+					<td>36</td>
+					<td>2008/10/16</td>
+					<td>$5,300</td>
+				</tr>
+				<tr>
+					<td>Haley Kennedy</td>
+					<td>Senior Marketing Designer</td>
+					<td>London</td>
+					<td>43</td>
+					<td>2012/12/18</td>
+					<td>$4,800</td>
+				</tr>
+				<tr>
+					<td>Tatyana Fitzpatrick</td>
+					<td>Regional Director</td>
+					<td>London</td>
+					<td>19</td>
+					<td>2010/03/17</td>
+					<td>$2,875</td>
+				</tr>
+				<tr>
+					<td>Michael Silva</td>
+					<td>Senior Marketing Designer</td>
+					<td>London</td>
+					<td>66</td>
+					<td>2012/11/27</td>
+					<td>$3,750</td>
+				</tr>
+				<tr>
+					<td>Paul Byrd</td>
+					<td>Javascript Developer</td>
+					<td>New York</td>
+					<td>64</td>
+					<td>2010/06/09</td>
+					<td>$5,000</td>
+				</tr>
+				<tr>
+					<td>Gloria Little</td>
+					<td>Systems Administrator</td>
+					<td>New York</td>
+					<td>59</td>
+					<td>2009/04/10</td>
+					<td>$3,120</td>
+				</tr>
+				<tr>
+					<td>Bradley Greer</td>
+					<td>Software Engineer</td>
+					<td>London</td>
+					<td>41</td>
+					<td>2012/10/13</td>
+					<td>$3,120</td>
+				</tr>
+			</tbody>
+		</table>
 
 
-<script>
-
-var pieData = [
-{
-	label : "Bla",
-	value: 30,
-	color:"#F38630"
-},
-{
-	value : 50,
-	color : "#E0E4CC"
-},
-{
-	value : 80,
-	color : "#69D2E7"
-},
-{
-	value : 20,
-	color : "#C02942"
-},
-{
-	value : 45,
-	color : "#542437"
-}
-
-];
-
-var radarChartData = {
-	labels : ["","","","","","",""],
-	datasets : [
-	{
-		fillColor : "rgba(220,220,220,0.5)",
-		strokeColor : "rgba(220,220,220,1)",
-		pointColor : "rgba(220,220,220,1)",
-		pointStrokeColor : "#fff",
-		data : [65,59,90,81,56,55,40]
-	},
-	{
-		fillColor : "rgba(151,187,205,0.5)",
-		strokeColor : "rgba(151,187,205,1)",
-		pointColor : "rgba(151,187,205,1)",
-		pointStrokeColor : "#fff",
-		data : [28,48,40,19,96,27,100]
-	}
-	]
-};
-
-var lineChartData = {
-	labels : ["January","February","March","April","May","June","July"],
-	datasets : [
-	{
-		fillColor : "rgba(220,220,220,0.5)",
-		strokeColor : "rgba(220,220,220,1)",
-		pointColor : "rgba(220,220,220,1)",
-		pointStrokeColor : "#fff",
-		data : [65,59,90,81,56,55,40]
-	},
-	{
-		fillColor : "rgba(151,187,205,0.5)",
-		strokeColor : "rgba(151,187,205,1)",
-		pointColor : "rgba(151,187,205,1)",
-		pointStrokeColor : "#fff",
-		data : [28,48,40,19,96,27,100]
-	}
-	]
-}
-
-new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
-new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
-new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
 
 
-$(document).ready( function () {
-	var table = $('#example').DataTable();
-} );
+		<canvas id="pie" align='center' height="300" width="300"></canvas>
+		<canvas id="radar" align='center' height="350" width="350"></canvas>
+		<canvas align='center'id="canvas" height="400" width="900"></canvas>
 
-</script>
+
+		<script>
+
+		var pieData = [
+		{
+			label : "Bla",
+			value: 30,
+			color:"#F38630"
+		},
+		{
+			value : 50,
+			color : "#E0E4CC"
+		},
+		{
+			value : 80,
+			color : "#69D2E7"
+		},
+		{
+			value : 20,
+			color : "#C02942"
+		},
+		{
+			value : 45,
+			color : "#542437"
+		}
+
+		];
+
+		var radarChartData = {
+			labels : ["","","","","","",""],
+			datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,1)",
+				pointColor : "rgba(220,220,220,1)",
+				pointStrokeColor : "#fff",
+				data : [65,59,90,81,56,55,40]
+			},
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [28,48,40,19,96,27,100]
+			}
+			]
+		};
+
+		var lineChartData = {
+			labels : ["January","February","March","April","May","June","July"],
+			datasets : [
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(220,220,220,1)",
+				pointColor : "rgba(220,220,220,1)",
+				pointStrokeColor : "#fff",
+				data : [65,59,90,81,56,55,40]
+			},
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [28,48,40,19,96,27,100]
+			}
+			]
+		}
+
+		new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
+		new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
+		new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+
+
+		$(document).ready( function () {
+			var table = $('#example').DataTable();
+		} );
+
+		</script>

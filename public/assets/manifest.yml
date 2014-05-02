@@ -3,10 +3,10 @@ coinbridge.png: coinbridge-8ed8bf7da30b7eb848f9eab48a0a9eec.png
 coinbridge/index.png: coinbridge-8ed8bf7da30b7eb848f9eab48a0a9eec.png
 coinbridge2.png: coinbridge2-4b5bbc9fef1529c6c77a579db012f164.png
 coinbridge2/index.png: coinbridge2-4b5bbc9fef1529c6c77a579db012f164.png
-application.js: application-7def78bc38b1e7bbc4c6153ae87627b8.js
-application/index.js: application-7def78bc38b1e7bbc4c6153ae87627b8.js
-application.css: application-6a80747885e114cf37ed9945cf69b3a3.css
-application/index.css: application-6a80747885e114cf37ed9945cf69b3a3.css
+application.js: application-4b07f4f7622387c2ed5edb3feab6da94.js
+application/index.js: application-4b07f4f7622387c2ed5edb3feab6da94.js
+application.css: application-286a8ee597379b8266a882bdbfa644af.css
+application/index.css: application-286a8ee597379b8266a882bdbfa644af.css
 jquery.min.map: jquery.min-388372ef65cc311f6a3df4a6ceac8d22.map
 jquery/index.min.map: jquery.min-388372ef65cc311f6a3df4a6ceac8d22.map
 glyphicons-halflings-white.png: glyphicons-halflings-white-6cccd17a7aed91dbc0157d343c68c0d9.png

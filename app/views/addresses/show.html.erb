@@ -1,5 +1,7 @@
-<%= @address%>
-
-<%require 'open-uri'%>
-
-<%=open("https://blockchain.info/q/getreceivedbyaddress/#{@address}").read%>
+<h2><%= @address%>
+	<%= link_to "Edit", new_address_path, class: "btn btn-success" %>
+</h2>
+<h2>Item Name: N/A</h2>
+<h2>
+	Balance: <%=open("https://blockchain.info/q/getreceivedbyaddress/#{@address}").read%>
+</h2>

@@ -1,0 +1,14 @@
+<table class="table table-hover">
+  <caption>Account Summary</caption>
+  <thead>
+    <tr>
+      <th><%= "Wallet Address".pluralize(current_user.addresses.count) %> (<%= current_user.addresses.count %>)
+      </th>
+      <th>Item name</th>
+      <th>Balance (BTC)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render 'partials/online_connections/summary_table_content' %>
+  </tbody>
+</table>

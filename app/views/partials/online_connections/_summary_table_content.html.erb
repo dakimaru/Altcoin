@@ -1,0 +1,9 @@
+<% current_user.addresses.each do |address| %>
+<tr>
+	<th><%= link_to address.public_key, address_path(address.id) %></th>
+	<th>N/A</th>
+	<th><%= @unit = open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8) %></th>
+
+	<% @all_ads = "#{@all_ads}#{address.public_key}|" %>
+</tr>
+<% end -%>

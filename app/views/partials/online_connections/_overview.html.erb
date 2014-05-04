@@ -1,0 +1,12 @@
+<% @all_ads = @all_ads[0..-2] unless @all_ads.blank? %>
+
+<% url = "https://blockchain.info/q/addressbalance/#{@all_ads}" %>
+
+<% uri = URI.parse(URI.encode(url.strip)) %>
+
+<div class="well">
+<h4>Overall Balance: <%= open(uri).read %> BTC</h4>
+<h4>Net Income:</h4>
+<h4>Net Outbound:</h4>
+<h4>Transaction Volume:</h4>
+</div>

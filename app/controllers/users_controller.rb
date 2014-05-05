@@ -1,8 +1,9 @@
-  require 'nokogiri'
-  require 'open-uri'
-
 class UsersController < ApplicationController
-   def show
+
+  before_filter :signed_in_user
+  before_filter :correct_user
+
+  def show
     @user = User.find(params[:id])
     @addresses = @user.addresses 
     get_currency_info
@@ -23,20 +24,37 @@ class UsersController < ApplicationController
     end
   end
 
-  def get_currency_info
-    url = "https://coinmarketcap.com/"
-    doc = Nokogiri::HTML(open(url))
+  def edit
+  end
 
-    @curr_name = []
-    @curr_price = []
-
-    doc.css('.currency-name a').first(5).each do |n|  
-      @curr_name << n.text
-    end
-
-    doc.css('.price').first(5).each do |p|  
-      @curr_price << p.text
+  def update
+    if @user.update_attributes(params[:user])
+      flash[:success] = "Profile updated"
+      sign_in @user
+      redirect_to @user
+    else
+      render 'edit'
     end
   end
 
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :password,
+     :password_confirmation)
+  end
+
+  # Before filters
+
+  def signed_in_user
+    unless signed_in?
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
+    end
+  end
+
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(current_user) unless current_user?(@user)
+  end
 end

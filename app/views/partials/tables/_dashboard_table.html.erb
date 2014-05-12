@@ -1,0 +1,45 @@
+<div id='table_div'></div>
+
+<script type='text/javascript'>
+google.load('visualization', '1', {packages:['table']});
+google.setOnLoadCallback(drawTable);
+
+function drawTable() {
+	var data = new google.visualization.DataTable();
+	data.addColumn('string', '<%= "Wallet Address".pluralize(current_user.addresses.count) %> (<%= current_user.addresses.count %>)');
+	data.addColumn('string', 'Category');
+	data.addColumn('string', 'Item');
+	data.addColumn('number', 'Wallet Balance (BTC)');
+	data.addColumn('boolean', 'Wallet Balance (USD)');
+	var total_balance = 0;
+	<% current_user.addresses.each do |address| %>
+	var balance = <%= open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8) %>;
+	total_balance += balance;
+	data.addRows([
+		[
+		'<%= link_to address.public_key, address_path(address.id) %>',
+		'<%= if address.category.empty?
+        	"N/A"
+      	else
+        	address.category 
+        end%>',
+        '<%= if address.item_name.empty?
+        	"N/A"
+        else
+        	address.item_name
+        end%>',
+          {v: balance },
+        true]
+		]);
+	<% end -%>
+
+var formatter = new google.visualization.BarFormat({width: 100, max: total_balance});
+  formatter.format(data, 3); // Apply formatter to second column
+  
+
+	var table = new google.visualization.Table(document.getElementById('table_div'));
+	table.draw(data, {showRowNumber: false, allowHtml: true});
+}
+
+</script>
+

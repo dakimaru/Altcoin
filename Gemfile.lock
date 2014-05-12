@@ -80,6 +80,9 @@ GEM
       guard (>= 1.1)
       spork (>= 0.8.4)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     journey (1.0.4)
     jquery-rails (3.1.0)
@@ -99,6 +102,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.2)
     multi_json (1.9.0)
+    multi_xml (0.5.5)
     nio4r (1.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
@@ -196,6 +200,7 @@ DEPENDENCIES
   growl
   guard-rspec
   guard-spork
+  httparty
   jquery-rails
   nokogiri
   pg

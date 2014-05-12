@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  public_key :string(255)
-#  item_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :integer

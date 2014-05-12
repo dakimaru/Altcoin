@@ -1,13 +1,4 @@
 Altcoin::Application.routes.draw do
-  get "addresses/new"
-
-  get "addresses/create"
-
-  get "addresses/destroy"
-
-  get "messages/new"
-
-  get "messages/create"
 
   resources :users
   resources :messages, only: [:new, :create]
@@ -19,6 +10,7 @@ Altcoin::Application.routes.draw do
   match '/help', to: 'static_pages#help'
   match '/about', to: 'static_pages#about'
   match '/contact', to: 'messages#new'
+  match '/coinmarket', to: 'static_pages#coinmarket'
   match '/signup', to: 'users#new'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete

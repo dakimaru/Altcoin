@@ -26,22 +26,6 @@ module SessionsHelper
 		user == current_user
 	end
 
-	def get_currency_info
-		url = "https://coinmarketcap.com/"
-		doc = Nokogiri::HTML(open(url))
-
-		@curr_name = []
-		@curr_price = []
-
-		doc.css('.currency-name a').first(5).each do |n|  
-			@curr_name << n.text
-		end
-
-		doc.css('.price').first(5).each do |p|  
-			@curr_price << p.text
-		end
-	end
-
 	def redirect_back_or(default)
 		redirect_to(session[:return_to] || default)
 		session.delete(:return_to)

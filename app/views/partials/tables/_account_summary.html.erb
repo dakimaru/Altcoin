@@ -1,14 +1,34 @@
-<table class="table table-hover">
+<table class="table table-striped" id="account_summary">
   <caption>Account Summary</caption>
   <thead>
     <tr>
       <th><%= "Wallet Address".pluralize(current_user.addresses.count) %> (<%= current_user.addresses.count %>)
       </th>
+      <th>Category</th>
       <th>Item name</th>
       <th>Balance (BTC)</th>
     </tr>
   </thead>
   <tbody>
-    <%= render 'partials/online_connections/summary_table_content' %>
-  </tbody>
-</table>
+    <% @colors = ["#F38630","#E0E4CC","#69D2E7","#C02942","#542437","#69D2E7"] %>
+    <% i=0 %>
+    <% current_user.addresses.each do |address| %>
+    <tr>
+      <th><%= link_to address.public_key, address_path(address.id) %></th>
+      <th><%= if address.category.empty?
+        "N/A"
+      else
+        link_to address.category, address_path(address.id) 
+        end%></th>
+        <th><%= if address.item_name.empty?
+          "N/A"
+        else
+          link_to address.item_name, address_path(address.id) 
+          end%></th>
+          <th class="balance", style="color:<%=@colors[i]%>"><%= open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8) %></th>
+        </tr>
+        <% i=i+1 %>
+        <% end -%>
+      </tbody>
+    </table>
+    <%= link_to "Add address", new_address_path, class: "btn btn-primary" %>

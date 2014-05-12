@@ -1,12 +1,14 @@
+require 'open-uri'
+
 class UsersController < ApplicationController
 
-  before_filter :signed_in_user
-  before_filter :correct_user
+  before_filter :signed_in_user, except: [:new,:create]
+  before_filter :correct_user, except: [:new,:create]
 
   def show
     @user = User.find(params[:id])
     @addresses = @user.addresses 
-    get_currency_info
+    get_dashboard_data
   end
 
   def new

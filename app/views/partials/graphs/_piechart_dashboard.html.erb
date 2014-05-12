@@ -1,0 +1,51 @@
+<!--Div that will hold the pie chart-->
+<div id="chart_div" style="width: 500px; height: 400px;"></div>
+
+<!--Load the AJAX API-->
+<script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Item');
+        data.addColumn('number', 'Balance');
+        <% current_user.addresses.each do |address| %>
+        var balance=<%= open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8) %>
+        data.addRows([
+          ['<%= if address.item_name.empty?
+          "N/A"
+          else
+            address.item_name
+          end%>', balance]
+          ]);
+        <% end -%>
+
+        // Set chart options
+        var options = {
+        'legend':'left',
+        'title':'Balance Distribution',
+        'is3D':true,
+        'titleTextStyle': {fontSize: 28},
+        'chartArea.left': 0
+      };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+
+     </script>
+
+
+
+

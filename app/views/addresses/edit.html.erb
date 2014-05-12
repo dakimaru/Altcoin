@@ -1,0 +1,19 @@
+<% provide(:title, "Edit address") %>
+
+<div class="row">
+  <div class="span6 offset3">
+  	<h2>Update Address Information</h2>
+    <%= form_for(@address) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :category %>
+      <%= f.text_field :category %>
+
+      <%= f.label :item_name %>
+      <%= f.text_field :item_name %>
+
+      <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <% end %>
+
+  </div>
+</div>

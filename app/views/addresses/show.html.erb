@@ -1,7 +1,66 @@
-<h2><%= @address%>
-	<%= link_to "Edit", new_address_path, class: "btn btn-success" %>
-</h2>
-<h2>Item Name: N/A</h2>
-<h2>
-	Balance: <%=open("https://blockchain.info/q/getreceivedbyaddress/#{@address}").read%>
-</h2>
+<% provide(:title, @address.id.to_s) %>
+<div class="row-fluid">
+	<div class="span10">
+		<h4>Address: <i><%= @address.public_key%></i>
+			<br>
+			Category: 
+			<%= 
+			if @address.category.empty?
+				"N/A"
+			else
+				@address.category 
+				end  %>
+				<br>
+				Item Name: 
+				<%= 
+				if @address.item_name.empty?
+					"N/A"
+				else
+					@address.item_name 
+					end  %>
+					<br>
+					Balance: <%=open("https://blockchain.info/q/addressbalance/#{@address.public_key}").read.to_f/(10**8)%> BTC
+					<br>
+				</h4>
+			</div>
+			<div class="span2">
+				<%= link_to "Edit", edit_address_path(@address), class: "btn btn-success"%>
+				<%= link_to "Delete", @address, :method=>:delete,:confirm=>"Are you sure you want to delete this address?", class: "btn btn-danger"%>
+			</div>
+		</div>
+				<%= link_to "Date Range", new_address_path, class: "btn"%>
+
+		<div class="row-fluid">
+			<div class="span2">
+				<select name="currency_type">
+					<option value="0" selected="selected">BTC</option>
+					<option value="1" >USD</option>
+					<option value="2" >Total Transactions</option>
+				</select>
+			</div>
+
+			<div class="span2" style="float:right">
+				<select name="currency_type">
+					<option value="0" selected="selected">Hourly</option>
+					<option value="1" >Day</option>
+					<option value="2" >Week</option>
+					<option value="3" >Month</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span9">
+				<%= render 'partials/graphs/runchart_transactions' %>
+			</div>
+			<section class="span3">
+
+			</section>
+		</div>
+
+		<div class="row-fluid">
+			<div class="span10">
+				<%= render 'partials/tables/transaction_summary' %>
+			</div>
+		</div>
+		

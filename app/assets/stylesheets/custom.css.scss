@@ -39,7 +39,13 @@ textarea {
 
 nav {
 	padding-top: 5px;
-  font-weight: bold;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+  color: white;
+  &:hover {
+    color: $grayLight;
+  }
 }
 
 #logo {
@@ -143,6 +149,10 @@ input {
 
 /* Dashboard*/
 
+#username {
+  margin-top: 20px;
+}
+
 #curr-table {
   width:100%;
 }
@@ -150,4 +160,11 @@ input {
 table caption {
   font-size: 28px;
   font-weight: bold;
+  text-align:left;
+  margin: 10px 0px 20px 10px;
 }
+
+table img {
+  height: 15px;
+}
+

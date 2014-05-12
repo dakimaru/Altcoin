@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require raphael
 //= require chart
 //= require bootstrap
 //= require_tree .

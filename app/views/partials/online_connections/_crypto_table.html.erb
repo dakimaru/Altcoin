@@ -1,11 +1,15 @@
-<div class="well span8">
+<div class="well">
 	<table id="curr-table">
+		<caption><i>Live Rates</i><button class="btn btn-small btn-primary" id="toggler" style="float:right">Hide</button></caption>
 		<tr>
 			<th><%=@curr_name[0]%></th>
 			<th><%=@curr_name[1]%></th>
 			<th><%=@curr_name[2]%></th>
 			<th><%=@curr_name[3]%></th>
 			<th><%=@curr_name[4]%></th>
+			<th><%=@curr_name[5]%></th>
+			<th><%=@curr_name[6]%></th>
+			<th><%=@curr_name[7]%></th>
 		</tr>
 		<tr align='center'>
 			<td><%=@curr_price[0]%></td>		
@@ -13,6 +17,24 @@
 			<td><%=@curr_price[2]%></td>
 			<td><%=@curr_price[3]%></td>
 			<td><%=@curr_price[4]%></td>
+			<td><%=@curr_price[5]%></td>
+			<td><%=@curr_price[6]%></td>
+			<td><%=@curr_price[7]%></td>
 		</tr>
 	</table>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	var	i=0;
+  $("button").click(function(){
+    $("#curr-table tr").toggle();
+    if (i==0) {
+    	document.getElementById("toggler").textContent = "Show";
+    	i=1;}
+    else {
+    	document.getElementById("toggler").textContent = "Hide";
+    	i=0;};
+  });
+});
+</script>

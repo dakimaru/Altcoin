@@ -12,11 +12,14 @@
 		</div>
 	</section>
 </div>
+<hr>
 
 <% if @user.addresses.any? %>
-<%= render 'partials/graphs/piechart_dashboard' %>
+<%#= render 'partials/graphs/piechart_dashboard' %>
+<%#= render 'partials/graphs/linechart_dashboard' %>
+<%= render 'partials/graphs/full_piechart_dashboard' %>
 <div class="row-fluid">
-	<%= render 'partials/tables/dashboard_table' %>
+	<%#= render 'partials/tables/dashboard_table' %>
 </div>
 <% end -%>
 <br>

@@ -1,0 +1,117 @@
+    <script type="text/javascript">
+    google.load('visualization', '1.1', {packages: ['controls']});
+
+    google.setOnLoadCallback(drawVisualization);
+    function drawVisualization() {
+        // Prepare the data
+        var data = new google.visualization.DataTable();
+        var item_col = '<%= "Item".pluralize(current_user.addresses.count) %> (<%= current_user.addresses.count %>)'
+        data.addColumn('string', item_col);
+        data.addColumn('string', 'Category');
+        data.addColumn('number', 'Wallet Balance (mBTC)');
+        data.addColumn('number', 'Wallet Balance (BTC)');
+        data.addColumn('number', 'Wallet Balance (USD)');
+        data.addColumn('number', 'Transactions (24hr)');
+        data.addColumn('string', 'Address');
+
+        var total_balance = 0;
+        <% current_user.addresses.each do |address| %>
+        var balance = <%= open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**5) %>;
+        total_balance += balance;
+        data.addRows([
+        	[
+        	'<%= address.item_name %>',
+        	'<%= address.category %>',
+        	balance,
+        	balance/1000,
+        	balance*(<%= @rate %>)/(1000),
+        	5,
+        	'<%= link_to address.public_key, address_path(address.id) %>']
+        	]);
+        <% end -%>
+
+        // Define a slider control for the Balance (BTC) column.
+        var slider = new google.visualization.ControlWrapper({
+        	'controlType': 'NumberRangeFilter',
+        	'containerId': 'control1',
+        	'options': {
+        		'filterColumnLabel': 'Wallet Balance (mBTC)',
+        		'ui': {'labelStacking': 'vertical',
+        		'step': 0.1,
+        	}
+        }
+    });
+
+        // Define a category picker control for the Category column
+        var categoryPicker = new google.visualization.ControlWrapper({
+        	'controlType': 'CategoryFilter',
+        	'containerId': 'control2',
+        	'options': {
+        		'filterColumnLabel': 'Category',
+        		'ui': {
+        			'labelStacking': 'vertical',
+        			'allowTyping': false,
+        			'allowMultiple': false
+        		}
+        	}
+        });
+
+        // Define a Pie chart
+        var pie = new google.visualization.ChartWrapper({
+        	'chartType': 'PieChart',
+        	'containerId': 'chart1',
+        	'options': {
+        		'width': 600,
+        		'height': 400,
+        		'legend':'left',
+        		'title':'Balance Distribution',
+        		'titleTextStyle': {fontSize: 28},
+        		'is3D':true
+        	},
+          // Instruct the piechart to use colums 0 (Name) and 3 (Transactions made)
+          // from the 'data' DataTable.
+          'view': {'columns': [0, 2]}
+      });
+
+        // Define a StringFilter control for the 'Name' column
+        var stringFilter = new google.visualization.ControlWrapper({
+        	'controlType': 'StringFilter',
+        	'containerId': 'control3',
+        	'options': {
+        		'filterColumnLabel': item_col,
+        		'ui': {'label': 'Item',
+        		'labelStacking': 'vertical',
+        		'cssClass':'google-visualization-controls-stringfilter'}
+        	}
+        });
+        // Define a table
+        var table = new google.visualization.ChartWrapper({
+        	'chartType': 'Table',
+        	'containerId': 'chart2',
+        	'options': {
+        		'width': '950px',
+        		'allowHtml': true
+        	}
+        });
+
+        // Create a dashboard
+        new google.visualization.Dashboard(document.getElementById('dashboard')).
+            // Establish bindings, declaring the both the slider and the category
+            // picker will drive both charts.
+            bind([slider, categoryPicker,stringFilter], [pie, table]).
+            // Draw the entire dashboard.
+            draw(data);
+        }
+
+        </script>
+
+        <div id="dashboard">
+        	<div id="chart1"></div>
+        	<div id="control3" style="display: inline-block;
+  margin: 1em;"></div>
+        	<div id="control1" style="display: inline-block;
+  margin: 1em;"></div>
+        	<div id="control2" style="display: inline-block;
+  margin: 1em;"></div>
+        	<div id="chart2"></div>
+        </div>

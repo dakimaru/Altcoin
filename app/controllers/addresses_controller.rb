@@ -50,4 +50,5 @@ class AddressesController < ApplicationController
     redirect_to(current_user) unless current_user.id==@address.user_id
   end
 
+
 end

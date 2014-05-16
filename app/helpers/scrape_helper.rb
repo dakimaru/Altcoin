@@ -1,3 +1,0 @@
-module ScrapeHelper
-	
-end

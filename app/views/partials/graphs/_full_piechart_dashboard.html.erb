@@ -8,24 +8,26 @@
         var item_col = '<%= "Item".pluralize(current_user.addresses.count) %> (<%= current_user.addresses.count %>)'
         data.addColumn('string', item_col);
         data.addColumn('string', 'Category');
-        data.addColumn('number', 'Wallet Balance (mBTC)');
-        data.addColumn('number', 'Wallet Balance (BTC)');
-        data.addColumn('number', 'Wallet Balance (USD)');
-        data.addColumn('number', 'Transactions (24hr)');
+        data.addColumn('number', 'Balance (USD)');
+        data.addColumn('number', 'Balance (BTC)');
+        data.addColumn('number', '24 HR Income (BTC)');
+        data.addColumn('number', 'Weekly Income (BTC)');
         data.addColumn('string', 'Address');
 
         var total_balance = 0;
+        <%= since_yesterday = DateTime.now.to_time.to_i - 86400 %>
+        <%= since_last_week = DateTime.now.to_time.to_i - 604800 %>
         <% current_user.addresses.each do |address| %>
-        var balance = <%= open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**5) %>;
-        total_balance += balance;
+        <% @balance = (open("https://blockchain.info/q/addressbalance/#{address.public_key}").read.to_f/(10**8)) %>;
+
         data.addRows([
         	[
         	'<%= address.item_name %>',
         	'<%= address.category %>',
-        	balance,
-        	balance/1000,
-        	balance*(<%= @rate %>)/(1000),
-        	5,
+        	<%= (@balance*@rate).round(2) %>,
+        	<%= @balance.round(4) %>,
+        	<%=open("http://blockchain.info/q/getreceivedbyaddress/#{address.public_key}/?start_time=#{since_yesterday}000" ).read.to_f/(10**8)%>,
+        	<%=open("http://blockchain.info/q/getreceivedbyaddress/#{address.public_key}/?start_time=#{since_last_week}000" ).read.to_f/(10**8)%>,
         	'<%= link_to address.public_key, address_path(address.id) %>']
         	]);
         <% end -%>
@@ -35,7 +37,7 @@
         	'controlType': 'NumberRangeFilter',
         	'containerId': 'control1',
         	'options': {
-        		'filterColumnLabel': 'Wallet Balance (mBTC)',
+        		'filterColumnLabel': 'Balance (USD)',
         		'ui': {'labelStacking': 'vertical',
         		'step': 0.1,
         	}
@@ -61,12 +63,13 @@
         	'chartType': 'PieChart',
         	'containerId': 'chart1',
         	'options': {
-        		'width': 600,
-        		'height': 400,
-        		'legend':'left',
+        		width: 600,
+        		height: 400,
+        		legend: {position: 'labeled', alignment:'end', textStyle: {color: 'black', fontSize: 14}},
         		'title':'Balance Distribution',
         		'titleTextStyle': {fontSize: 28},
-        		'is3D':true
+        		'is3D':true,
+        		chartArea:{width:"95%",height:"90%",left:0}
         	},
           // Instruct the piechart to use colums 0 (Name) and 3 (Transactions made)
           // from the 'data' DataTable.
@@ -79,7 +82,7 @@
         	'containerId': 'control3',
         	'options': {
         		'filterColumnLabel': item_col,
-        		'ui': {'label': 'Item',
+        		'ui': {'label': 'Filter Item',
         		'labelStacking': 'vertical',
         		'cssClass':'google-visualization-controls-stringfilter'}
         	}
@@ -106,12 +109,16 @@
         </script>
 
         <div id="dashboard">
-        	<div id="chart1"></div>
-        	<div id="control3" style="display: inline-block;
-  margin: 1em;"></div>
-        	<div id="control1" style="display: inline-block;
-  margin: 1em;"></div>
-        	<div id="control2" style="display: inline-block;
-  margin: 1em;"></div>
+        	<div id="chart1" style="display: inline-block;"></div>
+        	<div style="display: inline-block; position: absolute">
+        		<div id="control1"></div>
+        		<div id="control2" style="margin-top:10px"></div>
+        	</div>
+        	<div class="well" style="display: inline-block; margin-top:20px">
+        		<h4>Total Balance: <%= (open(@uri).read.to_f/(10**8)).round(2) %> BTC</h4>
+        		<h4>Total Income: <%= (open(@uri).read.to_f/(10**8)/8).round(4) %> BTC</h4>
+        	</div>
+
+        	<div id="control3" style="width:200px"></div>
         	<div id="chart2"></div>
         </div>

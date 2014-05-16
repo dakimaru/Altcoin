@@ -67,6 +67,6 @@ class UsersController < ApplicationController
     @all_ads = @all_ads[0..-2] unless @all_ads.blank?
     url = "https://blockchain.info/q/addressbalance/#{@all_ads}"
     @uri = URI.parse(URI.encode(url.strip))
-    @rate =open("https://blockchain.info/q/24hrprice").read
+    @rate =open("https://blockchain.info/q/24hrprice").read.to_f
   end
 end

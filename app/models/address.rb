@@ -11,13 +11,15 @@
 #  category   :string(255)
 #
 
-
 class Address < ActiveRecord::Base
   attr_accessible :public_key, :item_name, :category
   belongs_to :user
 
   validates :user_id, presence: true
-  validates_format_of :public_key, :with => /^[13][\S]{26,33}$/
+  validates :item_name, presence: true
+  validates :category, presence: true
   validates :public_key, presence: true, uniqueness: true
+  validates :public_key, format: { with: /\A(1|3)[a-zA-Z1-9]{26,33}\z/,
+    message: "invalid bitcoin address" }
 
 end

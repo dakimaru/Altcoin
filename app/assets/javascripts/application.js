@@ -13,5 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require chart
+//= require BigInt
+//= require sha_256
 //= require bootstrap
 //= require_tree .

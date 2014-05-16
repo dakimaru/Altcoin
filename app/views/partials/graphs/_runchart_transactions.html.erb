@@ -6,12 +6,12 @@ google.setOnLoadCallback(drawChart);
 function drawChart() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('date', 'Date');
-	data.addColumn('number', 'Kepler-22b mission');
-	data.addColumn('string', 'Kepler title');
+	data.addColumn('number', 'Amount (BTC)');
+	data.addColumn('string', 'title');
 	data.addColumn('string', 'Kepler text');
 	data.addColumn('number', 'Gliese 163 mission');
 	data.addColumn('string', 'Gliese title');
-	data.addColumn('string', 'Gliese text');
+	data.addColumn('string', 'Status');
 	data.addRows([
 		[new Date(2314, 2, 15), 12400, undefined, undefined,
 		10645, undefined, undefined],
@@ -30,7 +30,7 @@ function drawChart() {
 	var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
 
 	var options = {
-		displayAnnotations: true,
+		displayAnnotations: false,
 	};
 
 	chart.draw(data, options);

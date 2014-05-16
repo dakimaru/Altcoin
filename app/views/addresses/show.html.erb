@@ -28,7 +28,6 @@
 				<%= link_to "Delete", @address, :method=>:delete,:confirm=>"Are you sure you want to delete this address?", class: "btn btn-danger"%>
 			</div>
 		</div>
-				<%= link_to "Date Range", new_address_path, class: "btn"%>
 
 		<div class="row-fluid">
 			<div class="span2">
@@ -47,6 +46,11 @@
 					<option value="3" >Month</option>
 				</select>
 			</div>
+		</div>
+
+		<h3>Transaction Summary</h3>
+		<div>
+Received(BTC): <%=open("https://blockchain.info/q/getreceivedbyaddress/#{@address.public_key}").read.to_f/(10**8)%> BTC         Received(USD): $2543.09        Total Transactions:  224
 		</div>
 
 		<div class="row-fluid">

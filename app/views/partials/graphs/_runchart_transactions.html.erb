@@ -1,38 +1,33 @@
-<div id='chart_div' style='width: 900px; height: 500px;'></div>
-
 <script type='text/javascript'>
-google.load('visualization', '1.1', {'packages':['annotationchart']});
+google.load('visualization', '1.1', {'packages':['controls','table','annotationchart']});
 google.setOnLoadCallback(drawChart);
 function drawChart() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('date', 'Date');
-	data.addColumn('number', 'Amount (BTC)');
-	data.addColumn('string', 'title');
-	data.addColumn('string', 'Kepler text');
-	data.addColumn('number', 'Gliese 163 mission');
-	data.addColumn('string', 'Gliese title');
-	data.addColumn('string', 'Status');
-	data.addRows([
-		[new Date(2314, 2, 15), 12400, undefined, undefined,
-		10645, undefined, undefined],
-		[new Date(2314, 2, 16), 24045, 'Lalibertines', 'First encounter',
-		12374, undefined, undefined],
-		[new Date(2314, 2, 17), 35022, 'Lalibertines', 'They are very tall',
-		15766, 'Gallantors', 'First Encounter'],
-		[new Date(2314, 2, 18), 12284, 'Lalibertines', 'Attack on our crew!',
-		34334, 'Gallantors', 'Statement of shared principles'],
-		[new Date(2314, 2, 19), 8476, 'Lalibertines', 'Heavy casualties',
-		66467, 'Gallantors', 'Mysteries revealed'],
-		[new Date(2314, 2, 20), 0, 'Lalibertines', 'All crew lost',
-		79463, 'Gallantors', 'Omniscience achieved']
-		]);
+	data.addColumn('number', 'Daily Income (BTC)');
+	data.addColumn('number', 'Daily Income (USD)');
 
-	var chart = new google.visualization.AnnotationChart(document.getElementById('chart_div'));
+	<% (0..90).each do |i|
+		start_t = Time.new.to_time.to_i - 86400*(i+1)
+		end_t = Time.new.to_time.to_i - 86400*i
+		income = open("https://blockchain.info/q/getreceivedbyaddress/#{@address.public_key}?start_time=#{start_t}000&end_time=#{end_t}000").read.to_f/(10**8)
+		%>
 
-	var options = {
-		displayAnnotations: false,
-	};
+		data.addRows([
+			[new Date(<%= Time.new.year %>, <%= Time.now.month %>-1,<%= Time.new.day - i%>), <%= income %>, <%= income*4 %>]
+			]);
 
-	chart.draw(data, options);
-}
-</script>
+	<% end -%>
+
+		var chart = new google.visualization.AnnotationChart(document.getElementById('anno'));
+		chart.draw(data, {displayAnnotations: false});
+
+		var table = new google.visualization.Table(document.getElementById('chart2'));
+		table.draw(data, {allowHtml: true, width: '950px'});
+
+	}
+
+	</script>
+
+	<div id='anno'></div>
+	<div id="chart2"></div>
